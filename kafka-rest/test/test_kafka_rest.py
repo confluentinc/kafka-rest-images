@@ -7,7 +7,7 @@ import json
 import confluent.docker_utils as utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-FIXTURES_DIR = os.path.join(CURRENT_DIR, "fixtures", "debian", "kafka-rest")
+FIXTURES_DIR = os.path.join(CURRENT_DIR, "fixtures")
 KAFKA_READY = "bash -c 'cub kafka-ready {brokers} 40 -z $KAFKA_ZOOKEEPER_CONNECT && echo PASS || echo FAIL'"
 HEALTH_CHECK = "bash -c 'cub kr-ready {host} {port} 20 && echo PASS || echo FAIL'"
 
