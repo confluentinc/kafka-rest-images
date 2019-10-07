@@ -1,9 +1,10 @@
 import os
 import unittest
-import utils
 import time
 import string
 import json
+
+import confluent.docker_utils as utils
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 FIXTURES_DIR = os.path.join(CURRENT_DIR, "fixtures", "debian", "kafka-rest")
