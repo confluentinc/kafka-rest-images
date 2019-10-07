@@ -44,15 +44,15 @@ class ConfigTest(unittest.TestCase):
 
     @classmethod
     def is_kafka_rest_healthy_for_service(cls, service):
-        output = cls.cluster.run_command_on_service(service, HEALTH_CHECK.format(host="localhost", port=8082))
+        output = cls.cluster.run_command_on_service(service, HEALTH_CHECK.format(host="localhost", port=8082)).decode()
         assert "PASS" in output
 
     def test_required_config_failure(self):
-        self.assertTrue("one of (KAFKA_REST_ZOOKEEPER_CONNECT,KAFKA_REST_BOOTSTRAP_SERVERS) is required." in self.cluster.service_logs("failing-config", stopped=True))
+        self.assertTrue("one of (KAFKA_REST_ZOOKEEPER_CONNECT,KAFKA_REST_BOOTSTRAP_SERVERS) is required." in self.cluster.service_logs("failing-config", stopped=True).decode())
 
     def test_default_config(self):
         self.is_kafka_rest_healthy_for_service("default-config")
-        props = self.cluster.run_command_on_service("default-config", "bash -c 'cat /etc/kafka-rest/kafka-rest.properties | sort'")
+        props = self.cluster.run_command_on_service("default-config", "bash -c 'cat /etc/kafka-rest/kafka-rest.properties | sort'").decode()
         expected = """
             host.name=default-config
             zookeeper.connect=zookeeper:2181/defaultconfig
@@ -61,7 +61,7 @@ class ConfigTest(unittest.TestCase):
 
     def test_default_config_kafka(self):
         self.is_kafka_rest_healthy_for_service("default-config-kafka")
-        props = self.cluster.run_command_on_service("default-config", "bash -c 'cat /etc/kafka-rest/kafka-rest.properties | sort'")
+        props = self.cluster.run_command_on_service("default-config", "bash -c 'cat /etc/kafka-rest/kafka-rest.properties | sort'").decode()
         expected = """
             bootstrap.servers=PLAINTEXT://kafka:9092
             host.name=default-config    
@@ -71,7 +71,7 @@ class ConfigTest(unittest.TestCase):
     def test_default_logging_config(self):
         self.is_kafka_rest_healthy_for_service("default-config")
 
-        log4j_props = self.cluster.run_command_on_service("default-config", "cat /etc/kafka-rest/log4j.properties")
+        log4j_props = self.cluster.run_command_on_service("default-config", "cat /etc/kafka-rest/log4j.properties").decode()
         expected_log4j_props = """log4j.rootLogger=INFO, stdout
 
             log4j.appender.stdout=org.apache.log4j.ConsoleAppender
@@ -88,10 +88,10 @@ class StandaloneNetworkingTest(unittest.TestCase):
     def setUpClass(cls):
         cls.cluster = utils.TestCluster("standalone-network-test", FIXTURES_DIR, "standalone-network.yml")
         cls.cluster.start()
-        assert "PASS" in cls.cluster.run_command_on_service("zookeeper-bridge", ZK_READY.format(servers="localhost:2181"))
-        assert "PASS" in cls.cluster.run_command_on_service("zookeeper-host", ZK_READY.format(servers="localhost:32181"))
-        assert "PASS" in cls.cluster.run_command_on_service("kafka-bridge", KAFKA_READY.format(brokers=1))
-        assert "PASS" in cls.cluster.run_command_on_service("kafka-host", KAFKA_READY.format(brokers=1))
+        assert "PASS" in cls.cluster.run_command_on_service("zookeeper-bridge", ZK_READY.format(servers="localhost:2181")).decode()
+        assert "PASS" in cls.cluster.run_command_on_service("zookeeper-host", ZK_READY.format(servers="localhost:32181")).decode()
+        assert "PASS" in cls.cluster.run_command_on_service("kafka-bridge", KAFKA_READY.format(brokers=1)).decode()
+        assert "PASS" in cls.cluster.run_command_on_service("kafka-host", KAFKA_READY.format(brokers=1)).decode()
 
     @classmethod
     def tearDownClass(cls):
@@ -99,7 +99,7 @@ class StandaloneNetworkingTest(unittest.TestCase):
 
     @classmethod
     def is_kafka_rest_healthy_for_service(cls, service, port=8082):
-        output = cls.cluster.run_command_on_service(service, HEALTH_CHECK.format(host="localhost", port=port))
+        output = cls.cluster.run_command_on_service(service, HEALTH_CHECK.format(host="localhost", port=port)).decode()
         assert "PASS" in output
 
     def test_bridged_network(self):
