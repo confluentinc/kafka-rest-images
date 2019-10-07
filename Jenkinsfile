@@ -3,7 +3,7 @@
 dockerfile {
     dockerPush = true
     dockerRepos = ['confluentinc/cp-kafka-rest',]
-    mvnPhase = 'package'
+    mvnPhase = 'package integration-test'
     mvnSkipDeploy = true
     nodeLabel = 'docker-oraclejdk8-compose-swarm'
     slackChannel = 'connect-notification'
