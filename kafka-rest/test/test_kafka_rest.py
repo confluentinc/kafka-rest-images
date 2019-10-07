@@ -109,7 +109,7 @@ class StandaloneNetworkingTest(unittest.TestCase):
         logs = utils.run_docker_command(
             image="confluentinc/cp-kafka-rest",
             command=HEALTH_CHECK.format(host="localhost", port=18082),
-            host_config={'NetworkMode': 'host'})
+            host_config={'NetworkMode': 'host'}).decode()
 
         self.assertTrue("PASS" in logs)
 
@@ -117,7 +117,7 @@ class StandaloneNetworkingTest(unittest.TestCase):
         logs_2 = utils.run_docker_command(
             image="confluentinc/cp-kafka-rest",
             command=HEALTH_CHECK.format(host="kafka-rest-bridge", port=8082),
-            host_config={'NetworkMode': 'standalone-network-test_zk'})
+            host_config={'NetworkMode': 'standalone-network-test_zk'}).decode()
 
         self.assertTrue("PASS" in logs_2)
 
@@ -125,14 +125,14 @@ class StandaloneNetworkingTest(unittest.TestCase):
         logs_3 = utils.run_docker_command(
             image="confluentinc/cp-kafka-rest",
             command=POST_TO_TOPIC_CHECK % ("kafka-rest-bridge", 8082, "testtopicbridge"),
-            host_config={'NetworkMode': 'standalone-network-test_zk'})
+            host_config={'NetworkMode': 'standalone-network-test_zk'}).decode()
 
         self.assertTrue("value_schema_id" in logs_3)
 
         logs_4 = utils.run_docker_command(
             image="confluentinc/cp-kafka-rest",
             command=GET_TOPICS_CHECK.format(host="kafka-rest-bridge", port=8082),
-            host_config={'NetworkMode': 'standalone-network-test_zk'})
+            host_config={'NetworkMode': 'standalone-network-test_zk'}).decode()
 
         self.assertTrue("testtopicbridge" in logs_4)
 
@@ -143,7 +143,7 @@ class StandaloneNetworkingTest(unittest.TestCase):
         logs = utils.run_docker_command(
             image="confluentinc/cp-kafka-rest",
             command=HEALTH_CHECK.format(host="localhost", port=8082),
-            host_config={'NetworkMode': 'host'})
+            host_config={'NetworkMode': 'host'}).decode()
 
         self.assertTrue("PASS" in logs)
 
@@ -151,14 +151,14 @@ class StandaloneNetworkingTest(unittest.TestCase):
         logs_2 = utils.run_docker_command(
             image="confluentinc/cp-kafka-rest",
             command=POST_TO_TOPIC_CHECK % ("localhost", 8082, "testtopichost"),
-            host_config={'NetworkMode': 'host'})
+            host_config={'NetworkMode': 'host'}).decode()
 
         self.assertTrue("value_schema_id" in logs_2)
 
         logs_3 = utils.run_docker_command(
             image="confluentinc/cp-kafka-rest",
             command=GET_TOPICS_CHECK.format(host="localhost", port=8082),
-            host_config={'NetworkMode': 'host'})
+            host_config={'NetworkMode': 'host'}).decode()
 
         self.assertTrue("testtopichost" in logs_3)
 
@@ -170,7 +170,7 @@ class StandaloneNetworkingTest(unittest.TestCase):
         logs = utils.run_docker_command(
             image="confluentinc/cp-jmxterm",
             command=JMX_CHECK.format(jmx_hostname="kafka-rest-bridged-jmx", jmx_port=9999),
-            host_config={'NetworkMode': 'standalone-network-test_zk'})
+            host_config={'NetworkMode': 'standalone-network-test_zk'}).decode()
         self.assertTrue("connections-active =" in logs)
 
     def test_jmx_host_network(self):
@@ -181,5 +181,5 @@ class StandaloneNetworkingTest(unittest.TestCase):
         logs = utils.run_docker_command(
             image="confluentinc/cp-jmxterm",
             command=JMX_CHECK.format(jmx_hostname="localhost", jmx_port=39999),
-            host_config={'NetworkMode': 'host'})
+            host_config={'NetworkMode': 'host'}).decode()
         self.assertTrue("connections-active =" in logs)
