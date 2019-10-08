@@ -8,7 +8,7 @@ dockerfile {
     nodeLabel = 'docker-oraclejdk8-compose-swarm'
     slackChannel = 'connect-notification'
     upstreamProjects = []
-    dockerPullDeps = ['confluentinc/cp-base-new']
+    dockerPullDeps = ['confluentinc/cp-base-new', 'confluentinc/cp-jmxterm']
     usePackages = true
     cron = '' // Disable the cron because this job requires parameters
 }
