@@ -26,6 +26,7 @@ ARG CONFLUENT_PACKAGES_REPO
 ARG CONFLUENT_PLATFORM_LABEL
 ARG CONFLUENT_DEB_VERSION
 ARG ALLOW_UNSIGNED
+LABEL maintainer="partner-support@confluent.io"
 
 ENV COMPONENT=kafka-rest
 
@@ -34,18 +35,14 @@ EXPOSE 8082
 
 
 RUN echo "===> Installing ${COMPONENT}..." \
-    && apt-get update \
-    && echo "===> Adding confluent repository...${CONFLUENT_PACKAGES_REPO}" \
-    && if [ "x$ALLOW_UNSIGNED" = "xtrue" ]; then echo "APT::Get::AllowUnauthenticated \"true\";" > /etc/apt/apt.conf.d/allow_unauthenticated; else curl -s -L ${CONFLUENT_PACKAGES_REPO}/archive.key -o /tmp/archive.key && apt-key add /tmp/archive.key; fi \
-    && echo "deb [arch=amd64] ${CONFLUENT_PACKAGES_REPO} stable main" >> /etc/apt/sources.list \
-    && cat /etc/apt/sources.list \
-    && apt-get install -y apt-transport-https \
-    && apt-get update \
-    && apt-get install -y confluent-${COMPONENT}=${CONFLUENT_VERSION}${CONFLUENT_PLATFORM_LABEL}-${CONFLUENT_DEB_VERSION} \
-    confluent-control-center=${CONFLUENT_VERSION}${CONFLUENT_PLATFORM_LABEL}-${CONFLUENT_DEB_VERSION} \
-    confluent-security=${CONFLUENT_VERSION}${CONFLUENT_PLATFORM_LABEL}-${CONFLUENT_DEB_VERSION} \
+    && yum -q -y update \
+    && yum install -y \
+        confluent-${COMPONENT}-${CONFLUENT_VERSION}${CONFLUENT_PLATFORM_LABEL} \
+        confluent-control-center-${CONFLUENT_VERSION}${CONFLUENT_PLATFORM_LABEL} \
+        confluent-security-${CONFLUENT_VERSION}${CONFLUENT_PLATFORM_LABEL} \
     && echo "===> clean up ..."  \
-    && apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* \
+    && yum clean all \
+    && rm -rf /tmp/* \
     && echo "===> Setting up ${COMPONENT} dirs" \
     && chmod -R ag+w /etc/${COMPONENT}
 
