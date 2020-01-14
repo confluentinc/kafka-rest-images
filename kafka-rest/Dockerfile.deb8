@@ -27,6 +27,8 @@ ARG CONFLUENT_PLATFORM_LABEL
 ARG CONFLUENT_DEB_VERSION
 ARG ALLOW_UNSIGNED
 
+LABEL io.confluent.docker.git.repo="confluentinc/kafka-rest-images"
+
 ENV COMPONENT=kafka-rest
 
 # default listener
