@@ -16,8 +16,7 @@
 
 . /etc/confluent/docker/bash-config
 
-dub ensure-atleast-one KAFKA_REST_ZOOKEEPER_CONNECT KAFKA_REST_BOOTSTRAP_SERVERS
-dub ensure KAFKA_REST_HOST_NAME
+dub ensure KAFKA_REST_BOOTSTRAP_SERVERS
 
 dub path /etc/"${COMPONENT}"/ writable
 
