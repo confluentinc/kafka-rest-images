@@ -38,6 +38,6 @@
 
     <properties>
         <component.name>kafka-rest</component.name>
-        <io.confluent.kafka-rest.version>6.1.0-0</io.confluent.kafka-rest.version>
+        <io.confluent.kafka-rest-images.version>6.1.0-0</io.confluent.kafka-rest-images.version>
     </properties>
 </project>
