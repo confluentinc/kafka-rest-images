@@ -15,4 +15,5 @@ dockerfile {
     osTypes = ['ubi8']
     nanoVersion = true
     buildArm = true
+    dockerImageClean = false
 }
