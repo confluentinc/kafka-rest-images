@@ -8,10 +8,11 @@ git:
 semaphore:
   enable: true
   pipeline_type: cp-dockerfile
-  nano_version: true
   docker_repos: ['confluentinc/cp-kafka-rest',]
   maven_phase: 'package'
   maven_skip_deploy: true
+  os_types: ['ubi8']
+  nano_version: true
   build_arm: true
   cve_scan: true
   sign_image: true
