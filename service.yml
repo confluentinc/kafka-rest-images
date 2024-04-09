@@ -16,3 +16,62 @@ semaphore:
   build_arm: true
   cve_scan: true
   sign_image: true
+  tasks:
+  - name: cp-dockerfile-build
+    branch: master
+    pipeline_file: .semaphore/cp_dockerfile_build.yml
+    parameters:
+      - name: CONFLUENT_VERSION
+        description: 'Confluent Platform version.'
+        required: true
+        default_value: 'NONE'
+      - name: PACKAGES_URL
+        description: 'S3 bucket url where the debian packages are located.'
+        required: true
+        default_value: 'NONE'
+      - name: PACKAGES_MAVEN_URL
+        description: 'URL to Maven packages from upstream packaging job.'
+        required: true
+        default_value: 'NONE'
+      - name: PACKAGING_BUILD_NUMBER
+        description: 'Build number of packaging job. Required except when doing promote to production. For promote to production only this will default to latest.'
+        required: true
+        default_value: 'NONE'
+      - name: ALLOW_UNSIGNED
+        description: 'Allow unsigned packages.'
+        required: true
+        default_value: 'False'
+        options:
+          - 'True'
+          - 'False'
+      - name: CONFLUENT_DEB_VERSION
+        description: 'Debian package version.'
+        required: true
+        default_value: '1'
+  - name: cp-dockerfile-promote
+    branch: master
+    pipeline_file: .semaphore/cp_dockerfile_promote.yml
+    parameters:
+      - name: CONFLUENT_VERSION
+        description: 'Confluent Platform version.'
+        required: true
+        default_value: 'NONE'
+      - name: IMAGE_REVISION
+        description: 'Revision for Docker images. This is used with promote to production only.'
+        required: true
+        default_value: '1'
+      - name: UPDATE_LATEST_TAG
+        description: 'Should the latest tag on docker hub be updated to point at this new image version.'
+        required: true
+        default_value: 'NONE'
+      - name: PACKAGING_BUILD_NUMBER
+        description: 'Build number of packaging job. Required except when doing promote to production. For promote to production only this will default to latest.'
+        required: true
+        default_value: 'NONE'
+      - name: PROMOTE_OS_TYPE
+        description: 'The image OS type to promote to DockerHub. Required only when doing promote to production.'
+        required: true
+        default_value: 'ubi'
+        options:
+          - 'deb'
+          - 'ubi'
