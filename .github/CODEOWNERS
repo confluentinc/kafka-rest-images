@@ -1,3 +1,1 @@
-# See go/codeowners - automatically generated for confluentinc/kafka-rest-images:
-*	@confluentinc/clients
-*	@confluentinc/kafka-rest-eng
+*	@confluentinc/kora-networking
