@@ -13,7 +13,7 @@ semaphore:
   maven_skip_deploy: true
   os_types: ['ubi8']
   nano_version: true
-  build_arm: false
+  build_arm: true
   cve_scan: true
   sign_image: true
   use_packages: true
