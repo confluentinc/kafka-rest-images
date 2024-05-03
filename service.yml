@@ -15,7 +15,7 @@ semaphore:
   nano_version: true
   build_arm: true
   cve_scan: true
-  sign_image: true
+  sign_images: true
   use_packages: true
   cp_images: true
   tasks:
