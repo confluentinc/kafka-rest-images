@@ -22,7 +22,7 @@
     <parent>
         <groupId>io.confluent</groupId>
         <artifactId>common-docker</artifactId>
-        <version>[7.3.9-0, 7.3.10-0)</version>
+        <version>7.3.9-27</version>
     </parent>
 
     <groupId>io.confluent.kafka-rest-images</groupId>
@@ -30,7 +30,7 @@
     <packaging>pom</packaging>
     <name>Kafka REST Docker Images</name>
     <description>Build files for Confluent's Kafka REST Docker images</description>
-    <version>7.3.9-0</version>
+    <version>7.3.9-16</version>
 
     <modules>
         <module>kafka-rest</module>
@@ -38,6 +38,6 @@
 
     <properties>
         <component.name>kafka-rest</component.name>
-        <io.confluent.kafka-rest-images.version>7.3.9-0</io.confluent.kafka-rest-images.version>
+        <io.confluent.kafka-rest-images.version>7.3.9-16</io.confluent.kafka-rest-images.version>
     </properties>
 </project>
