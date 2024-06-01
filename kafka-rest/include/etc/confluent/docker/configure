@@ -21,6 +21,12 @@ dub ensure KAFKA_REST_HOST_NAME
 
 dub path /etc/"${COMPONENT}"/ writable
 
+if [[ -n "${KAFKA_REST_PORT-}" ]] && [[ -n "${KAFKA_REST_LISTENERS-}" ]]
+then
+  echo "Removing deprecated variable: KAFKA_REST_PORT since KAFKA_REST_LISTENERS variable is defined."
+  unset KAFKA_REST_PORT
+fi
+
 if [[ -n "${KAFKA_REST_PORT-}" ]]
 then
   echo "PORT is deprecated. Please use KAFKA_REST_LISTENERS instead."
