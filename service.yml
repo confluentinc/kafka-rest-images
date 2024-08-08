@@ -78,3 +78,7 @@ semaphore:
         options:
           - 'deb'
           - 'ubi'
+code_artifact:
+  enable: true
+  package_paths:
+    - maven/maven-snapshots/io/confluent/kafka-rest-images/kafka-rest-images-parent
