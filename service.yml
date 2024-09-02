@@ -82,3 +82,4 @@ code_artifact:
   enable: true
   package_paths:
     - maven-snapshots/maven/io.confluent.kafka-rest-images/kafka-rest-images-parent
+    - maven-snapshots/maven/io.confluent.kafka-rest-images/cp-kafka-rest
