@@ -1,8 +1,5 @@
 ---
 version: '2'
-networks:
-  zk:
-    driver: bridge
 services:
   kafka-bridge:
     image: confluentinc/cp-kafka:latest
@@ -46,8 +43,6 @@ services:
 
   kafka-rest-bridge:
     image: confluentinc/cp-kafka-rest:latest
-    networks:
-    - zk
     environment:
       KAFKA_REST_BOOTSTRAP_SERVERS: PLAINTEXT://kafka-bridge:19092
       KAFKA_REST_HOST_NAME: kafka-rest-bridge
