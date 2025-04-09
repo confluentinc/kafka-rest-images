@@ -70,8 +70,8 @@ class ConfigTest(unittest.TestCase):
     def test_default_logging_config(self):
         self.is_kafka_rest_healthy_for_service("default-config")
 
-        log4j_props = self.cluster.run_command_on_service("default-config", "cat /etc/kafka-rest/log4j2.yaml")
-        expected_log4j_props = """Configuration:
+        logger_props = self.cluster.run_command_on_service("default-config", "cat /etc/kafka-rest/log4j2.yaml")
+        expected_logger_props = """Configuration:
               name: "Log4j2"
 
               Appenders:
@@ -88,7 +88,7 @@ class ConfigTest(unittest.TestCase):
                     - ref: STDOUT
                 Logger:
             """
-        self.assertEquals(log4j_props.translate(None, string.whitespace), expected_log4j_props.translate(None, string.whitespace))
+        self.assertEquals(logger_props.translate(None, string.whitespace), expected_logger_props.translate(None, string.whitespace))
 
 
 class StandaloneNetworkingTest(unittest.TestCase):
