@@ -16,12 +16,12 @@ services:
     - io.confluent.docker.testing=true
 
   failing-config:
-    image: confluentinc/cp-kafka-rest:latest
+    image: ${DOCKER_REGISTRY}confluentinc/cp-kafka-rest:${DOCKER_TAG}
     labels:
     - io.confluent.docker.testing=true
 
   default-config:
-    image: confluentinc/cp-kafka-rest:latest
+    image: ${DOCKER_REGISTRY}confluentinc/cp-kafka-rest:${DOCKER_TAG}
     restart: on-failure:3
     environment:
       KAFKA_REST_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:9092
