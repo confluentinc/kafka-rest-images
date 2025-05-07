@@ -15,8 +15,9 @@
 
 ARG DOCKER_UPSTREAM_REGISTRY
 ARG DOCKER_UPSTREAM_TAG=ubi9-latest
+ARG UBI_MINIMAL_VERSION
 
-FROM ${DOCKER_UPSTREAM_REGISTRY}confluentinc/cp-base-java:${DOCKER_UPSTREAM_TAG}
+FROM ${DOCKER_UPSTREAM_REGISTRY}confluentinc/cp-base-java:${DOCKER_UPSTREAM_TAG} as intermediate
 
 ARG PROJECT_VERSION
 ARG ARTIFACT_ID
@@ -65,6 +66,13 @@ enabled=1 " > /etc/yum.repos.d/confluent.repo \
     && chmod -R ug+w /etc/${COMPONENT}
 
 COPY --chown=appuser:appuser include/etc/confluent/docker /etc/confluent/docker
+
+RUN cd /usr/share/java \
+      && package_dedupe $(pwd)
+
+FROM registry.access.redhat.com/ubi9-minimal:${UBI_MINIMAL_VERSION}
+
+COPY --from=intermediate / /
 
 USER appuser
 
