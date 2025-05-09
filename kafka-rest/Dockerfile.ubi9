@@ -15,8 +15,9 @@
 
 ARG DOCKER_UPSTREAM_REGISTRY
 ARG DOCKER_UPSTREAM_TAG=ubi9-latest
+ARG UBI_MINIMAL_VERSION
 
-FROM ${DOCKER_UPSTREAM_REGISTRY}confluentinc/cp-base-new:${DOCKER_UPSTREAM_TAG}
+FROM ${DOCKER_UPSTREAM_REGISTRY}confluentinc/cp-base-java:${DOCKER_UPSTREAM_TAG} as intermediate
 
 ARG PROJECT_VERSION
 ARG ARTIFACT_ID
@@ -50,7 +51,7 @@ baseurl=${CONFLUENT_PACKAGES_REPO}/ \n\
 gpgcheck=1 \n\
 gpgkey=${CONFLUENT_PACKAGES_REPO}/archive.key \n\
 enabled=1 " > /etc/yum.repos.d/confluent.repo \
-    && yum install -y \
+    && microdnf install -y \
         confluent-${COMPONENT}-${CONFLUENT_VERSION} \
         # We are installing confluent-telemetry package explicitly because
         # Rest proxy's deb/rpm packages cannot directly depend on
@@ -58,13 +59,20 @@ enabled=1 " > /etc/yum.repos.d/confluent.repo \
         confluent-telemetry-${CONFLUENT_VERSION} \
         confluent-security-${CONFLUENT_VERSION} \
     && echo "===> clean up ..."  \
-    && yum clean all \
+    && microdnf clean all \
     && rm -rf /tmp/* /etc/yum.repos.d/confluent.repo \
     && echo "===> Setting up ${COMPONENT} dirs" \
     && chown appuser:root -R /etc/${COMPONENT} \
     && chmod -R ug+w /etc/${COMPONENT}
 
 COPY --chown=appuser:appuser include/etc/confluent/docker /etc/confluent/docker
+
+RUN cd /usr/share/java \
+      && package_dedupe $(pwd)
+
+FROM registry.access.redhat.com/ubi9-minimal:${UBI_MINIMAL_VERSION}
+
+COPY --from=intermediate / /
 
 USER appuser
 
