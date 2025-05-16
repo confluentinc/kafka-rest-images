@@ -22,4 +22,5 @@ Configuration:
         level: "{{ $loglevel }}"
         AppenderRef:
           ref: STDOUT
-    {% endif %}
+    {{- end }}
+    {{- end }}
