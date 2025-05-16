@@ -1,4 +1,4 @@
-{% set security_props = env_to_props('KAFKA_REST_CLIENT_', '') -%}
-{% for name, value in security_props.items() -%}
-{{name}}={{value}}
-{% endfor -%}
+{{- $kr_props := envToProps "KAFKA_REST_CLIENT_" "" nil nil nil -}}
+{{ range $k, $v := $kr_props }}
+{{ $k }}={{ $v }}
+{{ end }}

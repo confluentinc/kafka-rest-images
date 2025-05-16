@@ -16,9 +16,9 @@
 
 . /etc/confluent/docker/bash-config
 
-dub ensure KAFKA_REST_BOOTSTRAP_SERVERS
+ub ensure KAFKA_REST_BOOTSTRAP_SERVERS
 
-dub path /etc/"${COMPONENT}"/ writable
+ub path /etc/"${COMPONENT}"/ writable
 
 if [[ -n "${KAFKA_REST_PORT-}" ]]
 then
@@ -34,6 +34,6 @@ then
   fi
 fi
 
-dub template "/etc/confluent/docker/${COMPONENT}.properties.template" "/etc/${COMPONENT}/${COMPONENT}.properties"
-dub template "/etc/confluent/docker/log4j2.yaml.template" "/etc/${COMPONENT}/log4j2.yaml"
-dub template "/etc/confluent/docker/admin.properties.template" "/etc/${COMPONENT}/admin.properties"
+ub render-template "/etc/confluent/docker/${COMPONENT}.properties.template" > /etc/${COMPONENT}/${COMPONENT}.properties
+ub render-template "/etc/confluent/docker/log4j2.yaml.template" > /etc/${COMPONENT}/log4j2.yaml
+ub render-template "/etc/confluent/docker/admin.properties.template" > /etc/${COMPONENT}/admin.properties
