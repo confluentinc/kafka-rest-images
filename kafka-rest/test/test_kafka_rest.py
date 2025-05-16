@@ -21,6 +21,7 @@ JMX_CHECK = """bash -c "\
         java -jar jmxterm-1.0-alpha-4-uber.jar -l {jmx_hostname}:{jmx_port} -n -v silent "
 """
 
+DOCKER_IMAGE_NAME = "{0}confluentinc/cp-kafka-rest:{1}".format(os.environ.get("DOCKER_REGISTRY",""), os.environ.get("DOCKER_TAG","latest"))
 class ConfigTest(unittest.TestCase):
 
     @classmethod
@@ -101,7 +102,7 @@ class StandaloneNetworkingTest(unittest.TestCase):
         self.is_kafka_rest_healthy_for_service("kafka-rest-bridge")
         # Test from outside the container on host network
         logs = utils.run_docker_command(
-            image="confluentinc/cp-kafka-rest",
+            image=DOCKER_IMAGE_NAME,
             command=HEALTH_CHECK.format(host="localhost", port=18082),
             host_config={'NetworkMode': 'host'})
 
@@ -109,7 +110,7 @@ class StandaloneNetworkingTest(unittest.TestCase):
 
         # Test from outside the container on bridge network
         logs_2 = utils.run_docker_command(
-            image="confluentinc/cp-kafka-rest",
+            image=DOCKER_IMAGE_NAME,
             command=HEALTH_CHECK.format(host="kafka-rest-bridge", port=8082),
             host_config={'NetworkMode': 'standalone-network-test_zk'})
 
@@ -117,14 +118,14 @@ class StandaloneNetworkingTest(unittest.TestCase):
 
         # Test writing a topic and confirm it was written by checking for it
         logs_3 = utils.run_docker_command(
-            image="confluentinc/cp-kafka-rest",
+            image=DOCKER_IMAGE_NAME,
             command=POST_TO_TOPIC_CHECK % ("kafka-rest-bridge", 8082, "testtopicbridge"),
             host_config={'NetworkMode': 'standalone-network-test_zk'})
 
         self.assertTrue("value_schema_id" in logs_3)
 
         logs_4 = utils.run_docker_command(
-            image="confluentinc/cp-kafka-rest",
+            image=DOCKER_IMAGE_NAME,
             command=GET_TOPICS_CHECK.format(host="kafka-rest-bridge", port=8082),
             host_config={'NetworkMode': 'standalone-network-test_zk'})
 
@@ -135,7 +136,7 @@ class StandaloneNetworkingTest(unittest.TestCase):
         self.is_kafka_rest_healthy_for_service("kafka-rest-host")
         # Test from outside the container
         logs = utils.run_docker_command(
-            image="confluentinc/cp-kafka-rest",
+            image=DOCKER_IMAGE_NAME,
             command=HEALTH_CHECK.format(host="localhost", port=8082),
             host_config={'NetworkMode': 'host'})
 
@@ -143,14 +144,14 @@ class StandaloneNetworkingTest(unittest.TestCase):
 
         # Test writing a topic and confirm it was written by checking for it
         logs_2 = utils.run_docker_command(
-            image="confluentinc/cp-kafka-rest",
+            image=DOCKER_IMAGE_NAME,
             command=POST_TO_TOPIC_CHECK % ("localhost", 8082, "testtopichost"),
             host_config={'NetworkMode': 'host'})
 
         self.assertTrue("value_schema_id" in logs_2)
 
         logs_3 = utils.run_docker_command(
-            image="confluentinc/cp-kafka-rest",
+            image=DOCKER_IMAGE_NAME,
             command=GET_TOPICS_CHECK.format(host="localhost", port=8082),
             host_config={'NetworkMode': 'host'})
 
