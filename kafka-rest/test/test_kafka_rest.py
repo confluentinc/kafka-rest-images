@@ -21,7 +21,7 @@ JMX_CHECK = """bash -c "\
         java -jar jmxterm-1.0-alpha-4-uber.jar -l {jmx_hostname}:{jmx_port} -n -v silent "
 """
 
-DOCKER_IMAGE_NAME = "{0}confluentinc/cp-kafka-rest:{1}".format(os.environ["DOCKER_REGISTRY"], os.environ["DOCKER_TAG"])
+DOCKER_IMAGE_NAME = "{0}confluentinc/cp-kafka-rest:{1}".format(os.environ.get("DOCKER_REGISTRY"), os.environ.get("DOCKER_TAG"))
 class ConfigTest(unittest.TestCase):
 
     @classmethod
