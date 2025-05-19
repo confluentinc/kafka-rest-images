@@ -10,17 +10,17 @@ Configuration:
 
   Loggers:
     Root:
-      level: "{{ env['KAFKA_REST_LOG4J_ROOT_LOGLEVEL'] | default('INFO') }}"
+      level: {{ getEnv "KAFKA_REST_LOG4J_ROOT_LOGLEVEL" "INFO" }}
       AppenderRef:
         - ref: STDOUT
 
     Logger:
-    {% if env['KAFKA_REST_LOG4J_LOGGERS'] %}
-    {% set loggers = parse_log4j_loggers(env['KAFKA_REST_LOG4J_LOGGERS']) %}
-    {% for logger,loglevel in loggers.items() %}
-      - name: "{{logger}}"
-        level: "{{loglevel}}"
+    {{- if getEnv "KAFKA_REST_LOG4J_LOGGERS" "" }}
+    {{- $loggers := getEnv "KAFKA_REST_LOG4J_LOGGERS" "" -}}
+    {{- range $logger, $loglevel := splitToMapDefaults ","  "" $loggers}}
+      - name: "{{ $logger }}"
+        level: "{{ $loglevel }}"
         AppenderRef:
           ref: STDOUT
-    {% endfor %}
-    {% endif %}
+    {{- end }}
+    {{- end }}
