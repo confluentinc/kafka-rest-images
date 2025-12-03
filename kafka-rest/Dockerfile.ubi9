@@ -63,9 +63,8 @@ enabled=1 " > /etc/yum.repos.d/confluent.repo \
         confluent-telemetry-${CONFLUENT_VERSION} \
         confluent-security-${CONFLUENT_VERSION} \
     && echo "===> Deduping jars present in /usr/share/java ..." \
-    && package_dedupe /usr/share/java
-
-RUN echo "===> clean up ..."  \
+    && package_dedupe /usr/share/java \
+    && echo "===> clean up ..."  \
     && microdnf clean all \
     && rm -rf /tmp/* /etc/yum.repos.d/confluent.repo \
     && echo "===> Setting up ${COMPONENT} dirs" \
