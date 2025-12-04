@@ -61,6 +61,10 @@ RUN cd /usr/share/java \
 
 FROM registry.access.redhat.com/ubi9-minimal:${UBI_MINIMAL_VERSION}
 
+ARG PROJECT_VERSION
+ARG ARTIFACT_ID
+ARG GIT_COMMIT
+
 # default listener
 EXPOSE 8082
 
