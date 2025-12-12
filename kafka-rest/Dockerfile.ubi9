@@ -61,6 +61,10 @@ RUN cd /usr/share/java \
 
 FROM registry.access.redhat.com/ubi9-minimal:${UBI_MINIMAL_VERSION}
 
+ARG PROJECT_VERSION
+ARG ARTIFACT_ID
+ARG GIT_COMMIT
+
 # default listener
 EXPOSE 8082
 
@@ -72,6 +76,7 @@ LABEL version=$GIT_COMMIT
 LABEL release=$PROJECT_VERSION
 LABEL name=$ARTIFACT_ID
 LABEL summary="The Confluent REST Proxy provides a RESTful interface to a Kafka cluster, making it easy to produce and consume messages, view the state of the cluster, and perform administrative actions without using the native Kafka protocol or clients."
+LABEL description="The Confluent REST Proxy provides a RESTful interface to a Kafka cluster, making it easy to produce and consume messages, view the state of the cluster, and perform administrative actions without using the native Kafka protocol or clients."
 LABEL io.confluent.docker.git.repo="confluentinc/kafka-rest-images"
 
 COPY --from=intermediate / /
