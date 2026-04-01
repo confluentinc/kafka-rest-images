@@ -1,1 +1,3 @@
 *	@confluentinc/kora-networking
+.semaphore/	@confluentinc/kora-networking @confluentinc/cp-build-and-release-team
+service.yml	@confluentinc/kora-networking @confluentinc/cp-build-and-release-team
