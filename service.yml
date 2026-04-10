@@ -1,6 +1,6 @@
 name: kafka-rest-images
-lang: unknown
-lang_version: unknown
+lang: java
+lang_version: "17"
 codeowners:
   enable: true
 git:
