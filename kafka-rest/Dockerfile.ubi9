@@ -46,6 +46,9 @@ COPY --from=tools /usr/bin/package_dedupe /usr/local/bin/package_dedupe
 RUN echo "===> Installing confluent-kafka-rest, confluent-telemetry, confluent-security ..." \
     && dnf install -y --installroot=/microdir --releasever=9 --setopt=install_weak_deps=False --nodocs \
        confluent-kafka-rest-${CONFLUENT_VERSION} \
+       # We are installing confluent-telemetry package explicitly because
+       # Rest proxy's deb/rpm packages cannot directly depend on
+       # confluent-telemetry package as Rest proxy is Open Source.
        confluent-telemetry-${CONFLUENT_VERSION} \
        confluent-security-${CONFLUENT_VERSION} \
     && echo "===> Deduping jars in /microdir ..." \
