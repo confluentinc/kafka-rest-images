@@ -89,10 +89,7 @@ LABEL io.confluent.docker.git.repo="confluentinc/kafka-rest-images"
 
 USER root
 
-COPY --from=builder /microdir/usr/bin/kafka-rest-run-class /usr/bin/
-COPY --from=builder /microdir/usr/bin/kafka-rest-start /usr/bin/
-COPY --from=builder /microdir/usr/bin/kafka-rest-stop /usr/bin/
-COPY --from=builder /microdir/usr/bin/kafka-rest-stop-service /usr/bin/
+COPY --from=builder /microdir/usr/bin/kafka-rest-* /usr/bin/
 COPY --from=builder /microdir/usr/bin/security-plugins-run-class /usr/bin/
 COPY --from=builder /microdir/usr/bin/sr-acl-cli /usr/bin/
 COPY --from=builder /microdir/usr/share/java /usr/share/java
