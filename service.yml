@@ -94,6 +94,9 @@ semaphore:
         options:
           - 'True'
           - 'False'
+cp_dockerfile:
+  s390x_docker_repos: ['confluentinc/cp-kafka-rest']
+  s390x_maven_modules: ['kafka-rest']
 code_artifact:
   enable: true
   package_paths:
