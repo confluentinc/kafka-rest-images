@@ -34,6 +34,9 @@ semaphore:
         description: 'S3 bucket url where the debian packages are located.'
         required: true
         default_value: 'NONE'
+      - name: S390X_PACKAGES_URL
+        description: 'S3 bucket url where the s390x debian/rpm packages are located.'
+        required: false
       - name: PACKAGES_MAVEN_URL
         description: 'URL to Maven packages from upstream packaging job.'
         required: true
